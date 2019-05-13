@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>交罚缴款</title>
+<!--框架必需start-->
+<script type="text/javascript" src="../libs/js/jquery.js"></script>
+<script type="text/javascript" src="../libs/js/language/cn.js"></script>
+<script type="text/javascript" src="../libs/js/framework.js"></script>
+<link href="../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" id="skin" prePath="../" scrollerY="false"/>
+<link rel="stylesheet" type="text/css" id="customSkin"/>
+<!--框架必需end-->
+
+<!--引入弹窗组件start-->
+<script type="text/javascript" src="../libs/js/popup/drag.js"></script>
+<script type="text/javascript" src="../libs/js/popup/dialog.js"></script>
+<!--引入弹窗组件end-->
+
+<!--数据表格start-->
+<script src="../libs/js/table/quiGrid.js" type="text/javascript"></script>
+<!--数据表格end-->
+
+<!-- 日期选择框start -->
+<script type="text/javascript" src="../libs/js/form/datePicker/WdatePicker.js"></script>
+<!-- 日期选择框end -->
+
+<!-- 数字步进器start -->
+<script type="text/javascript" src="../libs/js/form/stepper.js"></script>
+<!-- 数字步进器end -->
+
+<!--布局控件start-->
+<script type="text/javascript" src="../libs/js/nav/layout.js"></script>
+<!--布局控件end-->
+
+<!-- 表单拆分 start -->
+<script src="../libs/js/form/stepForm.js" type="text/javascript"></script>
+<!-- 表单拆分 end -->
+
+<!-- 表单验证start -->
+<script src="../libs/js/form/validationRule.js" type="text/javascript"></script>
+<script src="../libs/js/form/validation.js" type="text/javascript"></script>
+<!-- 表单验证end -->
+<style>
+	.tdContentStyle1{
+		background-repeat:no-repeat;
+		padding:5px 0 0 10px;
+		line-height:150%;
+	}
+	.tdContentStyle2{
+		background-repeat:no-repeat;
+		padding:5px 0 0 10px;
+		line-height:150%;
+	}
+</style>
+<style type="text/css">
+  
+  #opp{
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	padding: 0 10px;
+	top: 0;
+	left: -120%;
+	box-sizing:border-box;
+	z-index: 999;
+  }
+  .opp_content{
+	height: 40px;
+	*height: 34px;
+	width: 100%;
+	box-sizing: border-box;
+	background: #FFFFFF;
+	color: #667b8f;
+	padding-top: 5px;
+  }
+  .opp_content span{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	color: #3399FF;
+	*float: left;
+	*margin-top: 5px;
+  }
+  .opp_content .Division{
+	width: 1px;
+	height: 14px;
+	background: #c9c9c9;
+	display: inline-block;
+	margin: 0 10px;
+	*float: left;
+	*margin-top: 5px;
+  }
+  .opp_content .close{
+	width: 25px;
+	height: 25px;
+	float: right;
+	text-align: center;
+	line-height: 25px;
+	cursor: pointer;
+	*margin-right: 20px;
+  }
+  .opp_content .l-icon{
+	*float: left;
+  }
+</style>
+
+</head>
+<body>
+	<div id="opp">
+	  <div class="opp_content">
+		<div style="float: left;">已经选中<span></span>笔罚单</div>
+		，总金额<font style="display: inline-block;width: 30px;height: 20px;text-align: center;line-height: 20px;color: #3399FF;">390</font>元
+
+		<div class="Division"></div>
+		<button><div>缴款</div></button>
+		<div class="close">X</div>
+	  </div>
+	</div>
+
+<div id="layout1">
+	<div position="top" id="bottomCon" style="" panelTitle="检索罚单">
+		<div class="formBoxContent">
+			<table>
+			<tr>
+			<td width="100" class="ali03">处罚决定书：</td>
+			<td><input type="text" watermark="输入处罚决定书号码" id="searchInput"/></td>
+			<td><button><span class="icon_find" onclick="getfd();">查询</span></button></td>
+			<td><button><span class="icon_find" onclick="sortHead();">表设置</span></button></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	<div   position="center" panelTitle="处罚决定书列表">
+		<div id="maingrid"></div>
+	</div>
+	<div  position="right" panelTitle="处罚决定书[420103240072871]的详细">
+
+		<div class="page_content" style="padding: 10px 20px;">
+			<form method="post" class="stepForm" stepFormTitle="true">
+				<div id="step1-1" class="stepForm" stepFormTitle="查询">
+					<table class="tableStyle" formMode="transparent">
+						查询交罚处罚决定书的详情
+						<tr>
+							<td colspan="2">
+								<input type="button" value="下一步" selfTarget="step1-1" nextTarget="step1-2"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-2" class="stepForm" stepFormTitle="核对">
+					<table class="tableStyle" formMode="transparent">
+						核对交罚处罚决定书的相关内容，以及发票号码
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-2" prevTarget="step1-1"/>
+								<input type="button" value="下一步" selfTarget="step1-2" nextTarget="step1-3"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-3" class="stepForm" stepFormTitle="缴款">
+					<table class="tableStyle" formMode="transparent">
+						可以现金方式缴纳，也可以通过非现金系统的扫码方式缴款
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-3" prevTarget="step1-2"/>
+								<input type="button" value="下一步" selfTarget="step1-3" nextTarget="step1-4"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-4" class="stepForm" stepFormTitle="发票打印">
+					<table class="tableStyle" formMode="transparent">
+						缴款成功，请给客户打印本次交易的发票
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-4" prevTarget="step1-3"/>
+								<input type="button" class="primary" value=" 完 成 " onclick="sureHandler()"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			<div class="height_15"></div>
+
+
+
+
+			<div class="infoCard">
+				<div class="content">
+					<table cellpadding="0" cellspacing="0" width="100%">
+						<tr>
+							<td width="100%" class="ver01">
+								<div class="formLayout">
+									<div class="formLayoutContent">
+										<dl>
+											<dd class="label">决定书编号：</dd>
+											<dd class="ele">4201032422272871</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">发票号码：</dd>
+											<dd class="ele">2018004192001</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<dl>
+											<dd class="label">当事人：</dd>
+											<dd class="ele">张小三</dd>
+											<div class="clear"></div>
+										</dl>
+										<div class="clear"></div>
+										<table  cellpadding="0" cellspacing="0" width="100%" style="padding-top:5px;">
+											<tr>
+												<td width="100" class="ver01"><dd class="label">备注信息：</dd></td>
+												<td>无备注信息</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+
+		</div>
+
+	</div>
+
+</div>
+
+  <script type="text/javascript">
+		var testData={"form.paginate.pageNo":1,"form.paginate.totalRows":13,"rows":[
+			{"id":1, "column1":"420103240072871","column2":"张三","column3":"20.00","column4":"2019-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":2, "column1":"420103240072872","column2":"李四","column3":"20.00","column4":"2019-01-01 10:20:00","column5":"饮酒或者醉酒后驾驶电动自行车的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":3, "column1":"420103240072873","column2":"张平","column3":"20.00","column4":"2019-01-02 10:20:00","column5":"驾驶证丢失期间仍驾驶机动车的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":4, "column1":"420103240072874","column2":"国庆","column3":"20.00","column4":"2019-01-05 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":5, "column1":"420103240072875","column2":"武汉","column3":"20.00","column4":"2019-01-11 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":6, "column1":"420103240072876","column2":"辽宁","column3":"20.00","column4":"2019-01-12 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":7, "column1":"420103240072877","column2":"南京","column3":"20.00","column4":"2019-02-11 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":8, "column1":"420103240072878","column2":"广州","column3":"20.00","column4":"2019-02-01 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":9, "column1":"420103240072879","column2":"上海","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":10, "column1":"420103240072880","column2":"深圳","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":11, "column1":"420103240072882","column2":"北京","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":12, "column1":"420103240072883","column2":"长沙","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"id":13, "column1":"420103240072884","column2":"郑州","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"}
+		]}
+
+
+		//数据表格使用
+		var g;
+		function initComplete(){
+			var currentwidth = document.documentElement.clientWidth;
+			var layout=$("#layout1").layout({ rightWidth: currentwidth/3,topHeight:70,allowTopResize:false,onEndResize:function(){
+				g.resetWidth();
+			}});
+
+			g = $("#maingrid").quiGrid({
+				columns: [
+					{ name: 'column1', align: 'center',  width: 200, display: '处罚决定书编号'},
+					{ name: 'column2', align: 'center' , width: 200, display: '当事人'},
+					{ name: 'column4', align: 'center' , width: 200, display: '违法时间'},
+					{ name: 'column5', align: 'center' , width: 200, display: '违法行为',showTitle:true},
+					{ name: 'column6', align: 'center' , width: 200, display: '违法地址',showTitle:true},
+					{ name: 'column3', align: 'right'  , width: 100, display: '罚单金额'}
+				],
+				data:testData,
+				pageSize: 10,
+				rownumbers:true,
+				checkbox:true,
+				//percentWidthMode:true,
+				height: '100%',
+				width:"100%",
+				usePager:false,
+				onReload:function(){return false},
+				onCheckRow: checkRowHandler,
+				onCheckAllRow: checkAllRowHandler
+			});
+		}
+
+		//新增
+		function getfd() {
+			console.log(this);
+			var orgid = $("#searchInput").val();
+			var diag = new top.Dialog();
+			diag.Title = "核实罚单信息 - "+orgid;
+			diag.URL = "./page2.html";
+			diag.Width=740;
+			diag.Height=425;
+			diag.OkButtonText = "确认";
+			//顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+			diag.OKEvent = function() {
+				diag.innerFrame.contentWindow.submitHandler(0);
+			};
+			diag.show();
+			//diag.addButton("next", " 保 存 ", function() {
+			//	diag.innerFrame.contentWindow.submitHandler(1);
+			//});
+
+		}
+
+		function sortHead(){
+			var diag = new top.Dialog();
+			diag.Title = "表头定制";
+			diag.URL = "./column-order-content.html";
+			diag.Width=380;
+			diag.Height=400;
+			diag.ShowButtonRow = true;
+			diag.OKEvent = function() {
+				diag.innerFrame.contentWindow.viewResule();
+			};
+			diag.show();
+		}
+		function resetGrid(newColumnsData){
+			var newData=newColumnsData.columns;
+			//newData.push(opp);
+			g.set('columns', newData);
+			g.loadData();
+		}
+
+
+
+	function showCondition(num){
+	  if(num==0){
+		$("#opp").stop().animate({
+		  left:"-100%"
+		});
+	  }
+	  else{
+		$("#opp").stop().animate({
+		  left:"0"
+		});
+		$("#opp").find('span').text(num);
+	  }
+	}
+	//点击X关闭
+	$(".opp_content .close").click(function(){
+	  showCondition(0);
+	});
+
+	//将选中的行存入数组，并用isChecked方法在分页时进行选中项重置
+	var checkedArray = [];
+	function findCheckedArray(id)
+	{
+		for(var i =0;i<checkedArray.length;i++)
+		{
+			if(checkedArray[i] == id) return i;
+		}
+		return -1;
+	}
+	function addCheckedArray(id)
+	{
+		if(findCheckedArray(id) == -1){
+		  checkedArray.push(id);
+		}
+	}
+	function removeCheckedArray(id)
+	{
+		var i = findCheckedArray(id);
+		if(i==-1) return;
+		checkedArray.splice(i,1);
+	}
+	function checkRowHandler(checked, data)
+	{
+		//console.log(checked);
+		//console.log(data);
+		if (checked) addCheckedArray(data.id,data.name);
+		else removeCheckedArray(data.id,data.name);
+		showCondition(checkedArray.length);
+		//console.log(checkedArray.length);
+	}
+	function checkAllRowHandler(checked)
+	{
+		for (var rowid in this.records)
+		{
+			if(checked)
+				addCheckedArray(this.records[rowid]['id']);
+			else
+				removeCheckedArray(this.records[rowid]['id']);
+		}
+		 showCondition(checkedArray.length)
+	}
+
+
+
+
+
+
+
+		//监听查询框的回车事件
+		 $("#searchInput").keydown(function(event){
+		 	if(event.keyCode==13){
+				getfd();
+				return;
+			}
+		 })
+
+	</script>
+</body>
+</html>

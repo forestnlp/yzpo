@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>交罚缴款</title>
+<!--框架必需start-->
+<script type="text/javascript" src="../libs/js/jquery.js"></script>
+<script type="text/javascript" src="../libs/js/language/cn.js"></script>
+<script type="text/javascript" src="../libs/js/framework.js"></script>
+<link href="../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" id="skin" prePath="../" scrollerY="false"/>
+<link rel="stylesheet" type="text/css" id="customSkin"/>
+<!--框架必需end-->
+
+<!--引入弹窗组件start-->
+<script type="text/javascript" src="../libs/js/popup/drag.js"></script>
+<script type="text/javascript" src="../libs/js/popup/dialog.js"></script>
+<!--引入弹窗组件end-->
+
+<!--数据表格start-->
+<script src="../libs/js/table/quiGrid.js" type="text/javascript"></script>
+<!--数据表格end-->
+
+<!-- 日期选择框start -->
+<script type="text/javascript" src="../libs/js/form/datePicker/WdatePicker.js"></script>
+<!-- 日期选择框end -->
+
+<!--布局控件start-->
+<script type="text/javascript" src="../libs/js/nav/layout.js"></script>
+<!--布局控件end-->
+
+<!-- 表单拆分 start -->
+<script src="../libs/js/form/stepForm.js" type="text/javascript"></script>
+<!-- 表单拆分 end -->
+
+<style>
+	.tdContentStyle1{
+		background-repeat:no-repeat;
+		padding:5px 0 0 10px;
+		line-height:150%;
+	}
+	.tdContentStyle2{
+		background-repeat:no-repeat;
+		padding:5px 0 0 10px;
+		line-height:150%;
+	}
+</style>
+</head>
+<body>
+
+<div id="layout1">
+	<div position="top" id="bottomCon" style="" panelTitle="检索罚单">
+		<div class="formBoxContent">
+			<table>
+			<tr>
+			<td width="100" class="ali03">处罚决定书：</td>
+			<td><input type="text" watermark="输入处罚决定书号码" id="searchInput"/></td>
+			<td><button><span class="icon_find" onclick="getfd();">查询</span></button></td>
+			<td><button type="button" id="fullscreenBtn" onclick="maxGrid()"><span class="icon_fullscreen">最大化表格</span></button></td>
+			</tr>
+			</table>
+		</div>
+	</div>
+	<div   position="center" panelTitle="处罚决定书列表">
+		<div id="maingrid"></div>
+	</div>
+	<div  position="right" panelTitle="处罚决定书[420103240072871]的详细">
+
+
+		<div class="page_content" style="padding: 10px 20px;">
+			<form method="post" class="stepForm" stepFormTitle="true">
+				<div id="step1-1" class="stepForm" stepFormTitle="查询">
+					<table class="tableStyle" formMode="transparent">
+						查询交罚处罚决定书的详情
+						<tr>
+							<td colspan="2">
+								<input type="button" value="下一步" selfTarget="step1-1" nextTarget="step1-2"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-2" class="stepForm" stepFormTitle="核对">
+					<table class="tableStyle" formMode="transparent">
+						核对交罚处罚决定书的相关内容，以及发票号码
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-2" prevTarget="step1-1"/>
+								<input type="button" value="下一步" selfTarget="step1-2" nextTarget="step1-3"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-3" class="stepForm" stepFormTitle="缴款">
+					<table class="tableStyle" formMode="transparent">
+						可以现金方式缴纳，也可以通过非现金系统的扫码方式缴款
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-3" prevTarget="step1-2"/>
+								<input type="button" value="下一步" selfTarget="step1-3" nextTarget="step1-4"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div id="step1-4" class="stepForm" stepFormTitle="发票打印">
+					<table class="tableStyle" formMode="transparent">
+						缴款成功，请给客户打印本次交易的发票
+						<tr>
+							<td colspan="2">
+								<input type="button" value="上一步" selfTarget="step1-4" prevTarget="step1-3"/>
+								<input type="button" class="primary" value=" 完 成 " onclick="sureHandler()"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			<div class="height_15"></div>
+		</div>
+
+
+<div id="scrollContent">	
+	<form id="form1"  failAlert="表单填写不正确，请按要求填写！">
+	<table class="tableStyle" formMode="transparent">
+		<tr>
+			<th colspan="4">表单填写</th>
+		</tr>
+		<tr>
+			<td width="15%">用户名：</td><td><input type="text" class="validate[required,custom[noSpecialCaracters]]" watermark="请输入英文或数字"/><span class="star">*</span></td>
+		</tr>
+		<tr>	
+			<td width="15%">姓名：</td><td><input type="text" class="validate[required,custom[chinese],length[0,20]]" watermark="请输入中文"/><span class="star">*</span></td>
+		</tr>
+		<tr>
+			<td>爱好：</td><td>
+			<div id="hobby" style="width:120px;"><input type="checkbox" id="checkbox-1" class="validate[minCheckbox[1]] checkbox" name="ck1" value="选项1"/><label for="checkbox-1" class="hand">唱歌</label>
+			<input type="checkbox" id="checkbox-2" class="validate[minCheckbox[1]] checkbox" name="ck1" value="选项2" /><label for="checkbox-2" class="hand">跳舞</label> <span class="star">*</span></div>
+			</td>
+		</tr>
+		<tr>
+			<td>年龄：</td><td><input type="text" watermark="请输入数字" class="validate[required,custom[onlyNumber],length[0,3]]"/><span class="star">*</span></td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<input type="button" value=" 提 交 "  onclick="validateForm('#form1');" class="primary" />
+			</td>
+		</tr>
+	 </table>
+	</form>
+</div>	
+
+
+		<div id="maingrid2"></div>
+	</div>
+</div>
+
+  <script type="text/javascript">
+		var testData={"form.paginate.pageNo":1,"form.paginate.totalRows":13,"rows":[
+			{"column1":"420103240072871","column2":"张三","column3":"20.00","column4":"2019-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072872","column2":"李四","column3":"20.00","column4":"2019-01-01 10:20:00","column5":"饮酒或者醉酒后驾驶电动自行车的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072873","column2":"张平","column3":"20.00","column4":"2019-01-02 10:20:00","column5":"驾驶证丢失期间仍驾驶机动车的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072874","column2":"国庆","column3":"20.00","column4":"2019-01-05 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072875","column2":"武汉","column3":"20.00","column4":"2019-01-11 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072876","column2":"辽宁","column3":"20.00","column4":"2019-01-12 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072877","column2":"南京","column3":"20.00","column4":"2019-02-11 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072878","column2":"广州","column3":"20.00","column4":"2019-02-01 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072879","column2":"上海","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072880","column2":"深圳","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072882","column2":"北京","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072883","column2":"长沙","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"未按规定安装电动自行车号牌的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"},
+			{"column1":"420103240072884","column2":"郑州","column3":"20.00","column4":"2018-01-21 10:20:00","column5":"驾驶电动自行车从事载客营运的","column6":"姑嫂树路长港路路口，杨汊湖中百仓储门口"}
+		]}
+		var testData2={"form.paginate.pageNo":1,"form.paginate.totalRows":13,"rows":[
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"},
+		{"deptName":"10:00-12:00<br>监控时间","sex":"10:00-12:00<br>运行时间","degree":"0<br>疲劳警告","age":20,"name":"G123<br>南京-北京"}
+		]}
+
+
+		//数据表格使用
+		var g;
+		var g2;
+		function initComplete(){
+			var currentwidth = document.documentElement.clientWidth;
+			var layout=$("#layout1").layout({ rightWidth: currentwidth/3,topHeight:70,allowTopResize:false,onEndResize:function(){
+				g.resetWidth();
+				g2.resetHeight();
+			}});
+
+			g = $("#maingrid").quiGrid({
+				columns: [
+					{ display: '处罚决定书编号', name: 'column1', align: 'center',  width: 200},
+					{ display: '当事人', name: 'column2', align: 'center' , width: 200},
+					{ display: '违法时间', name: 'column4', align: 'center' , width: 200},
+					{ display: '违法行为', name: 'column5', align: 'center' , width: 200,showTitle:true},
+					{ display: '违法地址', name: 'column6', align: 'center' , width: 200,showTitle:true},
+					{ display: '罚单金额', name: 'column3',  align: 'right' , width: 200}
+				],
+				data:testData,
+				pageSize: 10,
+				rownumbers:true,
+				checkbox:true,
+				percentWidthMode:true,
+				height: '100%',
+				width:"100%",
+				onReload:function(){return false},
+				toolbar:{
+					items:[
+						{text: '列数定制与排序', click: sortHead, iconClass: 'icon_setting'}
+					]
+				}
+			});
+
+			g2 = $("#maingrid2").quiGrid({
+				columns: [
+					{ display: '姓名', name: 'name', align: 'center',  width: 200, render: function (rowdata, rowindex, value, column){
+					var strhtml='<div class="tdContentStyle1">' + rowdata.name+ '</div>';
+					return strhtml;
+					}  },
+					{ display: '性别', name: 'sex', align: 'center' , width: 500, render: function (rowdata, rowindex, value, column){
+
+					var strhtml='<div class="tdContentStyle2">' + rowdata.sex+ '</div>';
+
+					return strhtml;
+
+					}  },
+					{ display: '部门', name: 'deptName',  align: 'center' , width: 300, render: function (rowdata, rowindex, value, column){
+
+					var strhtml='<div class="tdContentStyle2">' + rowdata.deptName+ '</div>';
+
+					return strhtml;
+
+					}  },
+					{ display: '学历', name: 'degree',  align: 'center', width: 200 , render: function (rowdata, rowindex, value, column){
+
+					var strhtml='<div class="tdContentStyle1">' + rowdata.degree+ '</div>';
+
+					return strhtml;
+
+					}  }
+				], data:testData2, pageSize: 10, rownumbers:false, checkbox:false,percentWidthMode:true,
+				height: '100%', width:"100%",rowHeight:65,onReload:function(){return false}
+			});
+
+		}
+
+		//新增
+		function getfd() {
+			console.log(this);
+			var orgid = $("#searchInput").val();
+			var diag = new top.Dialog();
+			diag.Title = "核实罚单信息 - "+orgid;
+			diag.URL = "../sample_html/layout/user-management-content.html";
+			diag.Width=600;
+			diag.Height=400;
+			diag.OkButtonText = "保存并新建用户";
+			//顺序很重要，diag.show()之前添加确定按钮事件，show之后添加新按钮
+			diag.OKEvent = function() {
+				diag.innerFrame.contentWindow.submitHandler(0);
+			};
+			diag.show();
+			diag.addButton("next", " 保 存 ", function() {
+				diag.innerFrame.contentWindow.submitHandler(1);
+			});
+
+		}
+function sortHead(){
+	var diag = new top.Dialog();
+	diag.Title = "表头定制";
+	diag.URL = "./column-order-content.html";
+	diag.Width=380;
+	diag.Height=400;
+	diag.ShowButtonRow = true;
+	diag.OKEvent = function() {
+		diag.innerFrame.contentWindow.viewResule();
+	};
+	diag.show();
+}
+function resetGrid(newColumnsData){
+var newData=newColumnsData.columns;
+//newData.push(opp);
+g.set('columns', newData);
+g.loadData();
+}
+function maxGrid(){
+	var btn=$("#fullscreenBtn").find("span");
+	if(btn.hasClass('icon_actualscreen')){
+		//top.switchMenu(1);
+		top.fullScrennHander(false);
+		btn.removeClass('icon_actualscreen');
+		btn.text("最大化表格");
+	}
+	else{
+		//top.switchMenu(0);
+		if (typeof window.screenX === "number"){
+			top.fullScrennHander(true);
+		}
+		else{
+			top.Toast('showNoticeToast', '您的浏览器不支持全屏，如果需要，请手动按F11键。');
+		}
+		btn.addClass('icon_actualscreen');
+		btn.text("还原窗口");
+	}
+}
+		//监听查询框的回车事件
+		 $("#searchInput").keydown(function(event){
+		 	if(event.keyCode==13){
+				getfd();
+				alert(1);
+				return;
+			}
+		 })
+
+    </script>
+</body>
+</html>

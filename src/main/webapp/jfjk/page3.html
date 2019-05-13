@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<!--框架必需start-->
+<script type="text/javascript" src="../libs/js/jquery.js"></script>
+<script type="text/javascript" src="../libs/js/language/cn.js"></script>
+<script type="text/javascript" src="../libs/js/framework.js"></script>
+<link href="../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" id="skin" prePath="../"/>
+<link rel="stylesheet" type="text/css" id="customSkin"/>
+<!--框架必需end-->
+
+<!-- 日期控件start -->
+<script type="text/javascript" src="../libs/js/form/datePicker/WdatePicker.js"></script>
+<!-- 日期控件end -->
+
+<!-- 树组件start -->
+<script type="text/javascript" src="../libs/js/tree/ztree/ztree.js"></script>
+<link type="text/css" rel="stylesheet" href="../libs/js/tree/ztree/ztree.css">
+<!-- 树组件end -->
+
+<!-- 树形下拉框start -->
+<script type="text/javascript" src="../libs/js/form/selectTree.js"></script>
+<!-- 树形下拉框end -->
+
+<!-- 表单验证start -->
+<script src="../libs/js/form/validationRule.js" type="text/javascript"></script>
+<script src="../libs/js/form/validation.js" type="text/javascript"></script>
+<!-- 表单验证end -->
+
+
+<script type="text/javascript">
+function qflag() {
+	var a = 0;
+	var b = 0;
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+	var beginTime = year + "-" + month + "-" + day;
+	var endTime = "2017-5-1";
+	var deadTime = "2019-5-1";
+	var beginTimes = beginTime.substring(0, 10).split("-");
+	var endTimes = endTime.substring(0, 10).split("-");
+	var deadTimes = deadTime.substring(0, 10).split("-");
+	beginTime = beginTimes[1] + "/" + beginTimes[2] + "/" + beginTimes[0] + " " + beginTime.substring(10, 19);
+	endTime = endTimes[1] + "/" + endTimes[2] + "/" + endTimes[0] + " " + endTime.substring(10, 19);
+	deadTime = deadTimes[1] + "/" + deadTimes[2] + "/" + deadTimes[0] + " " + deadTime.substring(10, 19);
+	a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
+	b = (Date.parse(deadTime) - Date.parse(beginTime)) / 3600 / 1000;
+	if (a > 0 || a == 0) {
+		return true;
+	} else if (a < 0 && b > 0) {
+		if (top.document.getElementById("copyrightinfo")) {
+			$(top.document.getElementById("copyrightinfo")).remove();
+			$(top.document.body).append('<div style="position:absolute;bottom:-7px;right:0px;font-size:12px;z-index:700;color:#cccccc;" id="copyrightinfo"></div>');
+		} else {
+			$(top.document.body).append('<div style="position:absolute;bottom:0px;right:20px;font-size:12px;z-index:700;color:#cccccc;" id="copyrightinfo"></div>');
+		}
+		return true;
+	} else if (b < 0 || b == 0) {
+		alert("授权过期，请联系QUICK UI官方获取新版");
+		return false;
+	}
+}
+</script>
+</head>
+<body>
+	<div class="page_content">
+	<form>
+	<table class="tableStyle" formMode="transparent">
+		<input type="hidden" name="bo.id" value="<s:property value='bo.id' />" />
+		<tr>
+			<td width="100">决定书：</td>
+			<td>
+				<button><span>4201032422272871</span></button>
+				<button><span>4201032422272871</span></button>
+				<button><span>4201032422272871</span></button>
+				<button><span>4201032422272871</span></button>
+				<button><span>4201032422272871</span></button>
+			</td>
+		</tr>
+		<tr>
+			<td width="100">共处理罚单：</td>
+			<td><span style="display: inline-block;width: 50px;height: 20px;text-align: center;line-height: 20px;color: #3399FF;">5</span>笔</td>
+		</tr>
+		<tr>
+			<td width="100">总金额：</td>
+			<td><span style="display: inline-block;width: 50px;height: 20px;text-align: center;line-height: 20px;color: #3399FF;">150.00</span>元</td>
+		</tr>
+		<tr>
+			<td>支付方式：</td>
+			<td><div style="width:200px;" class="validateContainer">
+				<input type="radio" class="validate[required] radio" id="radio-1" name="ra" value="radio-1" checked="" onchange="on_check(1);" /><label for="radio-1" class="hand">非现金</label>
+				<input type="radio" id="radio-2" name="ra" class="validate[required] radio" value="radio-2" onchange="on_check(2);" /><label for="radio-2" class="hand">现金</label>
+				<span class="star">*</span></div>
+			</td>
+		</tr>
+		<tr id="xjinput" style="display: none;">
+			<td>实收金额：</td>
+			<td><input type="text" value=""/><span class="star">*</span></td>
+		</tr>
+		<tr id="qrcodeinput" style="display: ;">
+			<td>支付码：</td>
+			<td><img src="./1.png" width="120"></td>
+		</tr>
+		<tr style="display: none;">
+			<td>支付方式：</td>
+			<td>
+				<select>
+					<option value="1">现金</option>
+					<option value="2">非现金</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	<script>
+		function submitHandler(status){
+			top.Toast("showNoticeToast", "现金找零，非现金扫码支付");
+			//top.Toast("showNoticeToast", "打印发票");
+			top.Dialog.close();
+		}
+		function on_check(ind){
+			if(ind==2){
+				$("#xjinput").show();
+				$("#qrcodeinput").hide();
+			}else{
+				$("#xjinput").hide();
+				$("#qrcodeinput").show();
+			}
+		}
+	</script>
+	</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<!--框架必需start-->
+<script type="text/javascript" src="../libs/js/jquery.js"></script>
+<script type="text/javascript" src="../libs/js/language/cn.js"></script>
+<script type="text/javascript" src="../libs/js/framework.js"></script>
+<link href="../libs/css/import_basic.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" id="skin" prePath="../"/>
+<link rel="stylesheet" type="text/css" id="customSkin"/>
+<!--框架必需end-->
+
+<!-- 日期控件start -->
+<script type="text/javascript" src="../libs/js/form/datePicker/WdatePicker.js"></script>
+<!-- 日期控件end -->
+
+<!-- 树组件start -->
+<script type="text/javascript" src="../libs/js/tree/ztree/ztree.js"></script>
+<link type="text/css" rel="stylesheet" href="../libs/js/tree/ztree/ztree.css">
+<!-- 树组件end -->
+
+<!-- 树形下拉框start -->
+<script type="text/javascript" src="../libs/js/form/selectTree.js"></script>
+<!-- 树形下拉框end -->
+
+<!-- 表单验证start -->
+<script src="../libs/js/form/validationRule.js" type="text/javascript"></script>
+<script src="../libs/js/form/validation.js" type="text/javascript"></script>
+<!-- 表单验证end -->
+
+
+<script type="text/javascript">
+function qflag() {
+	var a = 0;
+	var b = 0;
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth() + 1;
+	var day = now.getDate();
+	var beginTime = year + "-" + month + "-" + day;
+	var endTime = "2017-5-1";
+	var deadTime = "2019-5-1";
+	var beginTimes = beginTime.substring(0, 10).split("-");
+	var endTimes = endTime.substring(0, 10).split("-");
+	var deadTimes = deadTime.substring(0, 10).split("-");
+	beginTime = beginTimes[1] + "/" + beginTimes[2] + "/" + beginTimes[0] + " " + beginTime.substring(10, 19);
+	endTime = endTimes[1] + "/" + endTimes[2] + "/" + endTimes[0] + " " + endTime.substring(10, 19);
+	deadTime = deadTimes[1] + "/" + deadTimes[2] + "/" + deadTimes[0] + " " + deadTime.substring(10, 19);
+	a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
+	b = (Date.parse(deadTime) - Date.parse(beginTime)) / 3600 / 1000;
+	if (a > 0 || a == 0) {
+		return true;
+	} else if (a < 0 && b > 0) {
+		if (top.document.getElementById("copyrightinfo")) {
+			$(top.document.getElementById("copyrightinfo")).remove();
+			$(top.document.body).append('<div style="position:absolute;bottom:-7px;right:0px;font-size:12px;z-index:700;color:#cccccc;" id="copyrightinfo"></div>');
+		} else {
+			$(top.document.body).append('<div style="position:absolute;bottom:0px;right:20px;font-size:12px;z-index:700;color:#cccccc;" id="copyrightinfo"></div>');
+		}
+		return true;
+	} else if (b < 0 || b == 0) {
+		alert("授权过期，请联系QUICK UI官方获取新版");
+		return false;
+	}
+}
+</script>
+</head>
+<body>
+	<div class="page_content">
+	<form>
+	<table class="tableStyle" formMode="transparent">
+		<input type="hidden" name="bo.id" value="<s:property value='bo.id' />" />
+		<tr>
+			<td width="100">决定书编号：</td>
+			<td><input id="jdsbhinput" type="text" class="validate[required,custom[noSpecialCaracters]]" value="420103240072871" disabled="disabled"/></td>
+			<td width="100">发票号码：</td>
+			<td><input type="text" class="validate[required,custom[noSpecialCaracters]]" value="2018004192001" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">当事人：</td>
+			<td><input type="text" class="validate[required,custom[chinese],length[0,20]]" value="张三" disabled="disabled"/></td>
+			<td width="100">驾驶证号：</td>
+			<td><input type="text" value="3429 2119 6507 2343 15" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">档案编号：</td>
+			<td><input type="text" value="无" disabled="disabled"/></td>
+			<td width="100">发证机关：</td>
+			<td><input type="text" value="无" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">号牌种类：</td>
+			<td><input type="text" value="99" disabled="disabled"/></td>
+			<td width="100">号牌号码：</td>
+			<td><input type="text" value="无" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">违法时间：</td>
+			<td><input type="text" value="2019-01-21 10:20:00" class="date"  disabled="disabled"/></td>
+			<td width="100">违法地点：</td>
+			<td><input type="text" value="60030" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">违法行为：</td>
+			<td><input type="text" value="8043" disabled="disabled"/></td>
+			<td width="100">违法地址：</td>
+			<td><input type="text" value="姑嫂树路" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">违法积分：</td>
+			<td><input type="text" value="0" disabled="disabled"/></td>
+			<td width="100">违法金额：</td>
+			<td><input type="text" value="20.00" disabled="disabled"/></td>
+		</tr>
+		<tr>
+			<td width="100">滞纳金：</td>
+			<td><input type="text" value="0" disabled="disabled"/></td>
+			<td width="100">罚款总金额：</td>
+			<td><input type="text" value="20.00" disabled="disabled"/></td>
+		</tr>
+		<tr height="10">
+			<td colspan="4" style="padding: 0px;height: 5px;line-height: 5px;"><hr/></td>
+		</tr>
+		<tr>
+			<td width="100">手机号码：</td>
+			<td><input type="text" value="0"/></td>
+			<td width="100">发票号码：</td>
+			<td><input type="text" value="2018004192001"/><span class="star">*</span></td>
+		</tr>
+	</table>
+	</form>
+	</div>
+	<script>
+		function submitHandler(status){
+			top.insertrow();
+			top.Dialog.close();
+		}
+		$("#searchInput").keydown(function(event){
+			alert(event.keyCode);
+		});
+	</script>
+	</body>
+</html>
